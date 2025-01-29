@@ -37,6 +37,19 @@ def init_db():
                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                       FOREIGN KEY (user_id) REFERENCES users(id))''')
         
+        # Create search_results table
+        c.execute('''CREATE TABLE IF NOT EXISTS search_results
+                     (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                      user_id INTEGER,
+                      search_query TEXT NOT NULL,
+                      videos TEXT NOT NULL,
+                      timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                      FOREIGN KEY (user_id) REFERENCES users(id))''')
+        
+        # Create index for faster searches
+        c.execute('''CREATE INDEX IF NOT EXISTS idx_search_results 
+                     ON search_results (user_id, search_query, timestamp)''')
+        
         # Create default admin user if not exists
         c.execute('SELECT * FROM users WHERE username = ?', ('admin',))
         if not c.fetchone():
