@@ -48,4 +48,7 @@ streamlit_env/
 *.swp
 *.swo
 
+# Backup files
+*_backup.py
+
 # New additions from the code block 
